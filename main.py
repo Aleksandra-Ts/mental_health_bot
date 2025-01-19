@@ -3,7 +3,7 @@ from aiogram import Bot
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
-from handlers import chat, start, messages, test, schedule
+from handlers import chat, schedule, start, messages, test, commands
 from config import TELEGRAM_TOKEN
 from data_save import dp, user_actions
 
@@ -21,6 +21,8 @@ async def start_bot():
         BotCommand(command='chat_with_giga', description='Пообщаться'),
         BotCommand(command='end_chat_with_giga', description='Устал общаться'),
         BotCommand(command='emotional_intelligence_test', description='Пройти тест на эмоциональный интеллект'),
+        BotCommand(command='advice', description='Совет'),
+        BotCommand(command='feelings', description='Как ваше самочувствие?')
     ]
 
     await bot.set_my_commands(commands)
@@ -28,11 +30,11 @@ async def start_bot():
 
 async def main():
     user_actions()
-    dp.include_routers(start.router, chat.router, test.router, messages.router)
+    dp.include_routers(start.router, chat.router, test.router, commands.router, messages.router)
     dp.startup.register(start_bot)
 
     schedule.scheduler.start()
-    
+
     try:
         print("Бот запущен...")
         await bot.delete_webhook(drop_pending_updates=True)

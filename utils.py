@@ -50,3 +50,25 @@ def get_giga_token():
 user_giga_chat_active = {}
 user_messages = {}
 
+chat = GigaChat(credentials=GigaChatKey, model='GigaChat:latest', verify_ssl_certs=False)
+
+template = """Вы - помощник по саморазвитию. Используйте следующую информацию о пользователе и историю разговора, чтобы дать подходящий совет:
+
+Информация о пользователе:
+Пол: {user_gender}
+Возраст: {user_age}
+Эмоции: {user_feelings}
+
+
+Ваш ответ:"""
+
+prompt = PromptTemplate(
+    input_variables=["user_name", "user_gender", "user_age", "user_feelings"],
+    template=template
+)
+
+chain = LLMChain(
+    llm=chat,
+    prompt=prompt,
+    verbose=True
+)
