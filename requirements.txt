@@ -1,0 +1,6 @@
+aiogram 
+requests 
+langchain 
+langchain-community 
+langchain_gigachat 
+apscheduler
